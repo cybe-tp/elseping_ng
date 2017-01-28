@@ -16,7 +16,11 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+from tasks import views
+
 urlpatterns = [
     url(r'^list/', include('list.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^select$',views.select),
+    url(r'^$',views.index)
 ]
