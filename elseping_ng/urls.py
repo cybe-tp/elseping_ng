@@ -19,7 +19,7 @@ from django.contrib import admin
 from tasks import views
 
 urlpatterns = [
-    url(r'^contribute/', include('contribute.urls')),
+    #url(r'^contribute/', include('contribute.urls')),
     url(r'^list/', include('list.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^select$',views.select),
