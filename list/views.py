@@ -17,4 +17,4 @@ def detail(request, task_id):
         return render(request, 'list/detail.html', context)
 
     except Task.DoesNotExist:
-        raise Http404("Task does not exist")
+        raise Http404("Task you're looking for does not exist.")
