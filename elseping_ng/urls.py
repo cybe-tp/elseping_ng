@@ -22,6 +22,7 @@ urlpatterns = [
     #url(r'^contribute/', include('contribute.urls')),
     url(r'^list/', include('list.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^select$',views.select,name="task-select"),
+    url(r'^ball$',views.select,name="task-ball-next"),
+    url(r'^next$',views.select,name="task-next"),
     url(r'^$',views.index)
 ]
