@@ -15,12 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-
 from tasks import views as task
 
 urlpatterns = [
-    #url(r'^contribute/', include('contribute.urls')),
-    url(r'^list/', include('list.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^ball$',task.task_next,name="task-ball-next"),
     url(r'^task/list$', task.task_list,name="task-list"),

@@ -1,6 +1,5 @@
 {% include "header.html" %}
 
-
     <form action="{% url 'task-ball-next' %}" method="POST">
         {% csrf_token %}
         <input type="number" name="ball_number" id="ball_number" value="" placeholder="Deine Ball Nummer">
@@ -13,7 +12,5 @@
         <li><a href="{% url 'task-list' %}" class="ui-btn">Wähle aus Liste</a></li>
       </ul>
     </div>
-
-
 
 {% include "footer.html" %}
