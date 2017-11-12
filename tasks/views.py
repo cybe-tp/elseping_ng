@@ -70,7 +70,7 @@ def task_next(request):
         if ball_id is not None:
           return HttpResponseRedirect(reverse(task_view_ball, args=(task_id,ball_id,)))
         else:
-          return HttpResponseRedirect(reverse(task_view_ball, args=(task_id,ball_id,)))
+          return HttpResponseRedirect(reverse(task_view_ball, args=(task_id)))
     else:
         return render(request, "tasks/notask.html")
 
