@@ -11,7 +11,7 @@
         {{ task.description }}
     </pre>
 </p>
-{% if task.repeat_factor > 1 %}
+{% if task.repeat_factor >= 1 %}
     <a href="{% url "task-complete" task_id=task.id %}" class="ui-btn ui-corner-all ui-shadow ui-icon-gear ui-btn-icon-left ui-btn-active">Aufgabe durchgeführt</a>
 {% endif %}
 {% if task.is_needed %}

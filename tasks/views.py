@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.db.models.functions import Now
 from django.utils.timezone import now
 from datetime import *
+import subprocess
 
 
 from . import models
@@ -14,18 +15,24 @@ def index(request):
 
 def task_view(request,task_id):
     task = models.Task.objects.get(id=task_id)
+    task.set_pending(True);
+    task.save()
     return render(request,"tasks/view.html",context={
             'task': task,
     })
 
 def task_view_ball(request,task_id,ball_id):
     task = models.Task.objects.get(id=task_id)
+    task.set_pending(True)
+    task.save()
     return render(request,"tasks/view.html",context={
             'task': task,
             'ball_number': ball_id,
 
     })
 
+
+# displaying a list of all Tasks and their deadlines
 def task_list(request):
     all_tasks = models.Task.objects.all()
     tasks_today = []
@@ -44,7 +51,7 @@ def task_list(request):
             tasks_this_week.append(task)
         else:
             tasks_this_month.append(task)
-    # passing to list.html, where magic happens
+
     return render(request, 'tasks/list.html', context={
         'tasks_today': tasks_today,
         'tasks_tomorrow': tasks_tomorrow,
@@ -70,15 +77,18 @@ def task_next(request):
 def task_complete(request,task_id):
     task = models.Task.objects.get(id=task_id)
     task.last_complete = now()
+    task.set_pending(False)
     task.save()
+    inform_kraechz(task)
     if not task.is_needed():
         task.decrease_factor()
         task.save()
-    task_id = task.id
-    return HttpResponseRedirect(reverse(task_view, args=(task_id,)))
+
+    return render(request, "tasks/complete.html")
 
 def task_noneed(request,task_id):
     task = models.Task.objects.get(id=task_id)
+    task.set_pending(False)
     if task.is_needed():
         task.increase_factor()
         task.save()
@@ -89,4 +99,14 @@ def task_noneed(request,task_id):
 # Utilities
 
 def get_next_task():
-    return models.Task.objects.filter(next_repeat__lte=Now()).order_by('next_repeat').first()
+    return models.Task.objects.filter(pending=False, next_repeat__lte=Now()).order_by('next_repeat').first()
+
+
+# KRAECHZ
+def inform_kraechz(task):
+    print(task.get_voice_text)
+    subprocess.Popen(['/usr/bin/callkraechz', "'" + task.voice_text + "'"])
+
+
+
+
